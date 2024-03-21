@@ -866,6 +866,11 @@ class Telemetrix(threading.Thread):
                     self.shutdown()
                 raise RuntimeError('set_pin_mode_dht: A Callback must be specified')
 
+            if pin in self.dht_callbacks.keys():
+                if self.shutdown_on_exception:
+                    self.shutdown()
+                raise RuntimeError('set_pin_mode_dht: A Callback for this pin has already been specified')
+
             if self.dht_count < PrivateConstants.MAX_DHTS - 1:
                 self.dht_callbacks[pin] = callback
                 self.dht_count += 1
